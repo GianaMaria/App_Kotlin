@@ -5,6 +5,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:navigationBarColor">#545E67</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="text_bar">
+        <item name="android:textColor">@color/color</item>
+        <item name="android:textSize">24dp</item>
+    </style>
+
+    <style name="CustomToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/color</item>
+        <item name="android:navigationBarColor">#545E67</item>
     </style>
 
 </resources>
+
