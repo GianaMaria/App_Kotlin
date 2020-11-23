@@ -1,76 +1,66 @@
 package com.example.app_kotlin.data
 
 import android.graphics.Color
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.app_kotlin.data.model.Note
 import com.example.app_kotlin.data.model.NotesRepository
+import com.example.app_kotlin.data.model.randomColor
+import kotlin.random.Random
+
+private val idRandom = Random(0)
+
+val noteId: Long
+    get() = idRandom.nextLong()
 
 object Repository : NotesRepository {
-    val notes: List<Note> = listOf(
+    private val notes: MutableList<Note> = mutableListOf(
         Note(
             title = "Моя первая заметка",
             note = "Kotlin",
-            color = Color.rgb(202, 217, 214)
+            color = randomColor()
         ),
         Note(
             title = "Моя первая заметка",
             note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(68, 129, 131)
+            color = randomColor()
         ),
         Note(
             title = "Моя первая заметка",
             note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(92, 108, 121)
+            color = randomColor()
         ),
         Note(
             title = "Моя первая заметка",
             note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(191, 209, 211)
+            color = randomColor()
         ),
         Note(
             title = "Моя первая заметка",
             note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(167, 207, 209)
-        ),
-        Note(
-            title = "Моя первая заметка",
-            note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(168, 180, 186)
-        ),
-        Note(
-            title = "Моя первая заметка",
-            note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(122, 190, 194)
-        ),
-        Note(
-            title = "Моя первая заметка",
-            note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(202, 217, 214)
-        ),
-        Note(
-            title = "Моя первая заметка",
-            note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(191, 209, 211)
-        ),
-        Note(
-            title = "Моя первая заметка",
-            note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(68, 129, 131)
-        ),
-        Note(
-            title = "Моя первая заметка",
-            note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(92, 108, 121)
-        ),
-        Note(
-            title = "Моя первая заметка",
-            note = "Kotlin очень краткий, но при этом выразительный язык",
-            color = Color.rgb(167, 207, 209)
+            color = randomColor()
         )
-
     )
 
-    override fun getAllNotes(): List<Note> {
-        return notes
+    private val allNotes = MutableLiveData(getListForNotify())
+
+    override fun observeNotes(): LiveData<List<Note>> {
+        return allNotes
+    }
+
+    override fun addOrReplaceNote(newNote: Note) {
+        val note = notes.find { it.id == newNote.id }?.let {
+            if (it == newNote) return
+            notes.remove(it)
+        }
+
+        notes.add(newNote)
+
+        allNotes.postValue(getListForNotify())
+    }
+
+    private fun getListForNotify(): List<Note> = notes.toMutableList().also {
+        it.reverse()
     }
 
 }

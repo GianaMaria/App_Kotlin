@@ -1,21 +1,21 @@
 package com.example.app_kotlin.ui.fragments
 
-import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.example.app_kotlin.R
+import com.example.app_kotlin.data.model.Note
 import com.example.app_kotlin.presentation.NotesViewModel
 import com.example.app_kotlin.presentation.ViewState
 import com.example.app_kotlin.ui.adapter.NotesAdapter
 import com.example.app_kotlin.ui.main.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -32,7 +32,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
         }
 
-        val adapter = NotesAdapter()
+        val adapter = NotesAdapter {
+            navigateToNote(it)
+        }
 
         mainRecycler.adapter = adapter
 
@@ -44,6 +46,29 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 ViewState.EMPTY -> Unit
             }
         }
+
+        fab.setOnClickListener {
+            navigateToCreation()
+        }
+
+//        mainRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                if (dy > 0 && fab.isShown) {
+//                    fab.hide()
+//                } else if (dy < 0 && !fab.isShown) {
+//                    fab.show()
+//                }
+//            }
+//        })
+    }
+
+    private fun navigateToNote(note: Note) {
+        (requireActivity() as MainActivity).navigateTo(NoteFragment.create(note))
+    }
+
+    private fun navigateToCreation() {
+        (requireActivity() as MainActivity).navigateTo(NoteFragment.create(null))
     }
 }
 

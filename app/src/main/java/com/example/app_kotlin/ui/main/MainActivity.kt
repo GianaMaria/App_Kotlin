@@ -4,7 +4,9 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.app_kotlin.R
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +18,13 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//        window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
-//        window.navigationBarColor =  ContextCompat.getColor(this, R.color.navigation)
+    }
+
+    fun navigateTo(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+            .replace(R.id.fragment_container_view, fragment)
+            .addToBackStack("note")
+            .commit()
     }
 }
