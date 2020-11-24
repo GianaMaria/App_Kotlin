@@ -1,10 +1,42 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:navigationBarColor">#545E67</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
+    <style name="text_bar">
+        <item name="android:textColor">@color/color</item>
+        <item name="android:textSize">24dp</item>
+    </style>
+
+    <style name="CustomToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/color</item>
+        <item name="android:navigationBarColor">#545E67</item>
+    </style>
+
+    <style name="AppTheme.DefaultFab" parent="Widget.Design.FloatingActionButton">
+        <item name="tint">@color/colorPrimary</item>
+        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="android:layout_margin">@dimen/high</item>
+    </style>
+
+    <style name="AppTheme.DialogsFab" parent="AppTheme.DefaultFab">
+        <item name="tint">@color/colorAccent</item>
+        <item name="backgroundTint">#762AE3</item>
+    </style>
+
+    <style name="text_note">
+        <item name="android:textColor">#74B1B1</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <dimen name="high">16dp</dimen>
 </resources>
+
