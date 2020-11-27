@@ -1,13 +1,11 @@
 package com.example.app_kotlin.ui.main
 
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toolbar
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.app_kotlin.R
+import com.example.app_kotlin.ui.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,4 +25,12 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("note")
             .commit()
     }
+
+    fun navigateToMain(fragment: MainFragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+            .replace(R.id.fragment_container_view, fragment)
+            .commit()
+    }
+
 }

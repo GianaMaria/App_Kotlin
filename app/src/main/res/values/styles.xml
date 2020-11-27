@@ -1,17 +1,15 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:navigationBarColor">#545E67</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
-    <style name="text_bar">
+    <style name="text_style">
         <item name="android:textColor">@color/color</item>
         <item name="android:textSize">24dp</item>
     </style>
@@ -38,5 +36,12 @@
     </style>
 
     <dimen name="high">16dp</dimen>
+
+    <style name="ButtonStyle">
+        <item name="android:textColor">@color/design_default_color_surface</item>
+        <item name="android:backgroundTint">#009DE4</item>
+        <item name="cornerRadius">70dp</item>
+    </style>
+
 </resources>
 

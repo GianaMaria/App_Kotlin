@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +11,6 @@
         android:id="@+id/main.appbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/appbar_height"
-        android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -68,9 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/floatButton_marg"
-        android:tint="@android:color/white"
-        app:borderWidth="4dp"
-        app:fabCustomSize="70dp"
+        app:fabCustomSize="@dimen/fab_size"
         app:layout_anchor="@id/main.appbar"
         app:layout_anchorGravity="bottom|right|end"
         app:srcCompat="@android:drawable/ic_input_add" />

@@ -22,11 +22,12 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|snap"
-            app:title="" />
+            app:title="@string/title_bar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -37,13 +38,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title_note_red"
-            android:textColorHint="@color/note">
+            android:textColorHint="@android:color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/titleEt"
-                style="@style/text_note"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/color_fifth" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
@@ -55,5 +56,17 @@
             android:hint="@string/body_note_red"
             android:textColor="@android:color/black"
             android:textColorHint="@color/note" />
+
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="45dp"
+        app:fabCustomSize="@dimen/fab_size"
+        app:srcCompat="@drawable/ic_action_floating_save" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+ 

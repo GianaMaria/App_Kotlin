@@ -1,10 +1,15 @@
 package com.example.app_kotlin.presentation
 
-import androidx.lifecycle.ViewModel
-import com.example.app_kotlin.data.Repository
+import androidx.lifecycle.*
 import com.example.app_kotlin.data.model.Note
+import com.example.app_kotlin.data.notesRepository
 
-class NoteViewModel(var note: Note?) : ViewModel() {
+class NoteViewModel(var note: Note?) : ViewModel(), LifecycleOwner {
+
+    private val showErrorLiveData = MutableLiveData<Boolean>()
+    private val lifecycle = LifecycleRegistry(this).also {
+        it.currentState = Lifecycle.State.RESUMED
+    }
 
     fun updateNote(text: String) {
         note = (note ?: generateNote()).copy(note = text)
@@ -14,17 +19,29 @@ class NoteViewModel(var note: Note?) : ViewModel() {
         note = (note ?: generateNote()).copy(title = text)
     }
 
+    fun saveNote() {
+        note?.let { note ->
+            notesRepository.addOrReplaceNote(note).observe(this) {
+                it.onFailure {
+                    showErrorLiveData.value = true
+                }
+            }
+        }
+    }
+
+    fun showError() : LiveData<Boolean> = showErrorLiveData
+
+    override fun onCleared() {
+        super.onCleared()
+        lifecycle.currentState = Lifecycle.State.DESTROYED
+    }
+
     private fun generateNote(): Note {
-        //рандомный цвет из палитры
         return Note()
     }
 
-    //для сохранения
-    override fun onCleared() {
-        super.onCleared()
-        note?.let {
-            Repository.addOrReplaceNote(it)
-        }
+    override fun getLifecycle(): Lifecycle {
+        return lifecycle
     }
 
 }

@@ -16,4 +16,7 @@
     <dimen name="text_bar_start">16dp</dimen>
     <dimen name="text_bar_bottom">10dp</dimen>
     <dimen name="floatButton_marg">24dp</dimen>
+    <dimen name="button_save">600dp</dimen>
+    <dimen name="width_button_save">150dp</dimen>
+    <dimen name="fab_size">65dp</dimen>
 </resources>

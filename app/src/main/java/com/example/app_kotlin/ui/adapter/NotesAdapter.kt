@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_kotlin.R
 import com.example.app_kotlin.data.model.Note
+import com.example.app_kotlin.data.model.mapToColor
 import kotlinx.android.synthetic.main.item_note.view.*
 
 val DIFF_UTIL: DiffUtil.ItemCallback<Note> = object : DiffUtil.ItemCallback<Note>() {
@@ -46,7 +47,7 @@ class NotesAdapter(val noteHandler: (Note) -> Unit) :
             with(itemView) {
                 title.text = item.title
                 body.text = item.note
-                setBackgroundColor(item.color)
+                setBackgroundColor(item.color.mapToColor(context))
                 setOnClickListener(clickListener)
             }
         }

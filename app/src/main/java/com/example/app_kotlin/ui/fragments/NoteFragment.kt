@@ -1,23 +1,19 @@
 package com.example.app_kotlin.ui.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.MenuItem
-import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.app_kotlin.R
 import com.example.app_kotlin.data.model.Note
 import com.example.app_kotlin.presentation.NoteViewModel
+import com.example.app_kotlin.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_note.*
-import java.util.*
 
 class NoteFragment : Fragment(R.layout.fragment_note) {
     private val note: Note? by lazy { arguments?.getParcelable(NOTE_KEY) }
@@ -35,18 +31,23 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         super.onViewCreated(view, savedInstanceState)
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
 
-        if (activity is AppCompatActivity) {
-            (activity as AppCompatActivity).setSupportActionBar(toolbar)
-            (activity as AppCompatActivity).supportActionBar?.setHomeButtonEnabled(true)
-            (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            toolbar.setNavigationOnClickListener {
-                requireActivity().onBackPressed()
-            }
+        (activity as AppCompatActivity).also {
+            it.setSupportActionBar(toolbar)
+            it.supportActionBar?.setHomeButtonEnabled(true)
+            it.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
         }
 
         noteViewModel.note?.let {
             titleEt.setText(it.title)
             bodyEt.setText(it.note)
+        }
+
+        noteViewModel.showError().observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Error while saving note!", Toast.LENGTH_SHORT).show()
         }
 
         titleEt.addTextChangedListener {
@@ -56,8 +57,12 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         bodyEt.addTextChangedListener {
             noteViewModel.updateNote(it?.toString() ?: "")
         }
-    }
 
+        fab_save.setOnClickListener {
+            noteViewModel.saveNote()
+            (requireActivity() as MainActivity).navigateToMain(MainFragment())
+        }
+    }
 
     companion object {
         const val NOTE_KEY = "Note"

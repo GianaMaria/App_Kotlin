@@ -8,6 +8,8 @@
     <color name="white">#FFFFFF</color>
     <color name="note">#A1DFDF</color>
 
+    <color name="transparent">@android:color/transparent</color>
+
     <color name="color_one">#CAD9D6</color>
     <color name="color_second">#448183</color>
     <color name="color_third">#5C6C79</color>
