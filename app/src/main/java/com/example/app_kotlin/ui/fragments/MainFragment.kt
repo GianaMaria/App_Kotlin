@@ -53,7 +53,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun navigateToCreation() {
         (requireActivity() as MainActivity).navigateTo(NoteFragment.create(null))
     }
-
 }
 
 

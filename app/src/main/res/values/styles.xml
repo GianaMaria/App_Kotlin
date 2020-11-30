@@ -43,5 +43,13 @@
         <item name="cornerRadius">70dp</item>
     </style>
 
+    <style name="LoginStyle" parent="Theme.AppCompat.Light">
+        <item name="title">@string/auth</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="colorAccent">#fff</item>
+    </style>
 </resources>
 

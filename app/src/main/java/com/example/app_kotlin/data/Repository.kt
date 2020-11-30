@@ -13,6 +13,8 @@ val noteId: Long
 
 class Repository(private val provider: FireStoreDatabaseProvider) : NotesRepository {
 
+    override fun getCurrentUser() = provider.getCurrentUser()
+
     override fun observeNotes(): LiveData<List<Note>> {
         return provider.observeNotes()
     }

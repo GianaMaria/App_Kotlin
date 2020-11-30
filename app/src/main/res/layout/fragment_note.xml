@@ -38,13 +38,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title_note_red"
-            android:textColorHint="@android:color/black">
+            android:textColorHint="@android:color/black"
+            app:boxStrokeColor="#fff">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/titleEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/color_fifth" />
+                android:background="@color/color_fifth" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
