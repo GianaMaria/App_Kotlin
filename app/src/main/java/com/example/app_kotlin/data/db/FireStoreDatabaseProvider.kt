@@ -54,6 +54,25 @@ class FireStoreDatabaseProvider : DatabaseProvider {
         return result
     }
 
+    override fun deleteNote(noteId: String): LiveData<Result<Unit>> =
+        MutableLiveData<Result<Unit>>().apply {
+            handleNotesReference(
+                {
+                    getUserNotesCollection()
+                        .document(noteId)
+                        .delete()
+                        .addOnSuccessListener {
+                            value = Result.success(Unit)
+                        }.addOnFailureListener {
+                            value = Result.failure(it)
+                        }
+                }, {
+                    Log.e(TAG, "Error")
+                    value = Result.failure(it)
+                })
+        }
+
+
     private fun subscribeForDbChanging() {
         handleNotesReference(
             {

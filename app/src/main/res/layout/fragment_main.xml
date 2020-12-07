@@ -66,7 +66,7 @@
         style="@style/AppTheme.DialogsFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/floatButton_marg"
+        android:layout_margin="@dimen/size_24"
         app:fabCustomSize="@dimen/fab_size"
         app:layout_anchor="@id/main.appbar"
         app:layout_anchorGravity="bottom|right|end"

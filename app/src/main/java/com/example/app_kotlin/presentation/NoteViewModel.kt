@@ -2,9 +2,10 @@ package com.example.app_kotlin.presentation
 
 import androidx.lifecycle.*
 import com.example.app_kotlin.data.model.Note
-import com.example.app_kotlin.data.notesRepository
+import com.example.app_kotlin.data.model.NotesRepository
 
-class NoteViewModel(var note: Note?) : ViewModel(), LifecycleOwner {
+class NoteViewModel(private val notesRepository: NotesRepository, var note: Note?) : ViewModel(),
+    LifecycleOwner {
 
     private val showErrorLiveData = MutableLiveData<Boolean>()
     private val lifecycle = LifecycleRegistry(this).also {
@@ -19,17 +20,33 @@ class NoteViewModel(var note: Note?) : ViewModel(), LifecycleOwner {
         note = (note ?: generateNote()).copy(title = text)
     }
 
+    fun updateColor(color: Int) {
+        note = (note ?: generateNote()).copy(color2 = color)
+    }
+
     fun saveNote() {
         note?.let { note ->
-            notesRepository.addOrReplaceNote(note).observe(this) {
-                it.onFailure {
-                    showErrorLiveData.value = true
+            notesRepository.addOrReplaceNote(note)
+                .observe(this) {
+                    it.onFailure {
+                        showErrorLiveData.value = true
+                    }
                 }
-            }
         }
     }
 
-    fun showError() : LiveData<Boolean> = showErrorLiveData
+    fun deleteNote() {
+        note?.let { note ->
+            notesRepository.deleteNote(note.id.toString())
+                .observe(this) {
+                    it.onFailure {
+                        showErrorLiveData.value = true
+                    }
+                }
+        }
+    }
+
+    fun showError(): LiveData<Boolean> = showErrorLiveData
 
     override fun onCleared() {
         super.onCleared()

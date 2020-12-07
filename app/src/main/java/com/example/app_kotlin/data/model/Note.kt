@@ -13,14 +13,15 @@ data class Note(
     val id: Long = noteId,
     val title: String = "",
     val note: String = "",
-    val color: ColorF = Random.nextEnum()
+    val color: Color = Random.nextEnum(),
+    val color2: Int = 0,
 ) : Parcelable
 
 inline fun <reified T : Enum<T>> Random.nextEnum(): T {
     return enumValues<T>().random(this)
 }
 
-enum class ColorF {
+enum class Color {
     COLOR_ONE,
     COLOR_SECOND,
     COLOR_THIRD,
@@ -38,23 +39,23 @@ enum class ColorF {
     COLOR_WHITE,
 }
 
-fun ColorF.mapToColor(context: Context): Int {
+fun Color.mapToColor(context: Context): Int {
     val id = when (this) {
-        ColorF.COLOR_WHITE -> R.color.white
-        ColorF.COLOR_ONE -> R.color.color_one
-        ColorF.COLOR_SECOND -> R.color.color_second
-        ColorF.COLOR_THIRD -> R.color.color_third
-        ColorF.COLOR_FOUR -> R.color.color_four
-        ColorF.COLOR_FIFTH -> R.color.color_fifth
-        ColorF.COLOR_SIX -> R.color.color_six
-        ColorF.COLOR_SEVEN -> R.color.color_seven
-        ColorF.COLOR_ONE_F -> R.color.white
-        ColorF.COLOR_SECOND_F -> R.color.color_secondf
-        ColorF.COLOR_THIRD_F -> R.color.color_thirdf
-        ColorF.COLOR_FOUR_F -> R.color.color_fourf
-        ColorF.COLOR_FIFTH_F -> R.color.color_fifthf
-        ColorF.COLOR_SIX_F -> R.color.color_sixf
-        ColorF.COLOR_SEVEN_F -> R.color.color_sevenf
+        Color.COLOR_WHITE -> R.color.white
+        Color.COLOR_ONE -> R.color.color_one
+        Color.COLOR_SECOND -> R.color.color_second
+        Color.COLOR_THIRD -> R.color.color_third
+        Color.COLOR_FOUR -> R.color.color_four
+        Color.COLOR_FIFTH -> R.color.color_fifth
+        Color.COLOR_SIX -> R.color.color_six
+        Color.COLOR_SEVEN -> R.color.color_seven
+        Color.COLOR_ONE_F -> R.color.white
+        Color.COLOR_SECOND_F -> R.color.color_secondf
+        Color.COLOR_THIRD_F -> R.color.color_thirdf
+        Color.COLOR_FOUR_F -> R.color.color_fourf
+        Color.COLOR_FIFTH_F -> R.color.color_fifthf
+        Color.COLOR_SIX_F -> R.color.color_sixf
+        Color.COLOR_SEVEN_F -> R.color.color_sevenf
     }
     return ContextCompat.getColor(context, id)
 }
