@@ -1,45 +1,63 @@
 package com.example.app_kotlin.data.model
 
-import android.graphics.Color
+import android.content.Context
 import android.os.Parcelable
+import androidx.core.content.ContextCompat
 import com.example.app_kotlin.R
 import com.example.app_kotlin.data.noteId
 import kotlinx.android.parcel.Parcelize
-import java.util.*
+import kotlin.random.Random
 
 @Parcelize
 data class Note(
     val id: Long = noteId,
     val title: String = "",
     val note: String = "",
-    val color: Int = randomColor()
+    val color: Color = Random.nextEnum(),
+    val color2: Int = 0,
 ) : Parcelable
 
-fun randomColor(): Int {
-    val colorList = listOf(
-        colorOne, colorSecond, colorThird, colorFour, colorW,
-        colorFifth, colorSix, colorSeven, colorOnef, colorSecondf,
-        colorThirdf, colorFourf, colorFifthf, colorSixf, colorSevenf,
-    )
-
-    fun List<Int>.random() = if (size > 0) get(Random().nextInt(size)) else 0
-    return colorList.random()
-
+inline fun <reified T : Enum<T>> Random.nextEnum(): T {
+    return enumValues<T>().random(this)
 }
 
-val colorOne = Color.rgb(202, 217, 214)
-val colorSecond = Color.rgb(68, 12, 131)
-val colorThird = Color.rgb(92, 108, 121)
-val colorFour = Color.rgb(191, 209, 211)
-val colorFifth = Color.rgb(167, 207, 209)
-val colorSix = Color.rgb(168, 180, 186)
-val colorSeven = Color.rgb(122, 190, 195)
-val colorW = Color.rgb(225, 225, 225)
-val colorOnef = Color.rgb(162, 87, 189)
-val colorSecondf = Color.rgb(136, 227, 172)
-val colorThirdf = Color.rgb(237, 186, 250)
-val colorFourf = Color.rgb(198, 134, 214)
-val colorFifthf = Color.rgb(96, 187, 225)
-val colorSixf = Color.rgb(221, 110, 151)
-val colorSevenf = Color.rgb(241, 224, 149)
+enum class Color {
+    COLOR_ONE,
+    COLOR_SECOND,
+    COLOR_THIRD,
+    COLOR_FOUR,
+    COLOR_FIFTH,
+    COLOR_SIX,
+    COLOR_SEVEN,
+    COLOR_ONE_F,
+    COLOR_SECOND_F,
+    COLOR_THIRD_F,
+    COLOR_FOUR_F,
+    COLOR_FIFTH_F,
+    COLOR_SIX_F,
+    COLOR_SEVEN_F,
+    COLOR_WHITE,
+}
+
+fun Color.mapToColor(context: Context): Int {
+    val id = when (this) {
+        Color.COLOR_WHITE -> R.color.white
+        Color.COLOR_ONE -> R.color.color_one
+        Color.COLOR_SECOND -> R.color.color_second
+        Color.COLOR_THIRD -> R.color.color_third
+        Color.COLOR_FOUR -> R.color.color_four
+        Color.COLOR_FIFTH -> R.color.color_fifth
+        Color.COLOR_SIX -> R.color.color_six
+        Color.COLOR_SEVEN -> R.color.color_seven
+        Color.COLOR_ONE_F -> R.color.white
+        Color.COLOR_SECOND_F -> R.color.color_secondf
+        Color.COLOR_THIRD_F -> R.color.color_thirdf
+        Color.COLOR_FOUR_F -> R.color.color_fourf
+        Color.COLOR_FIFTH_F -> R.color.color_fifthf
+        Color.COLOR_SIX_F -> R.color.color_sixf
+        Color.COLOR_SEVEN_F -> R.color.color_sevenf
+    }
+    return ContextCompat.getColor(context, id)
+}
+
 

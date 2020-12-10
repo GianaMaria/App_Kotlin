@@ -1,15 +1,17 @@
 package com.example.app_kotlin.ui.main
 
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toolbar
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.example.app_kotlin.R
+import com.example.app_kotlin.ui.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,10 +23,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun navigateTo(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction
-            .replace(R.id.fragment_container_view, fragment)
-            .addToBackStack("note")
-            .commit()
+        supportFragmentManager.commit {
+            replace(R.id.fragment_container_view, fragment)
+            addToBackStack("note")
+        }
     }
+
+    fun navigateToMain(fragment: MainFragment) {
+        supportFragmentManager.commit {
+            replace(R.id.fragment_container_view, fragment)
+        }
+    }
+
+    companion object {
+        fun getStartIntent(context: Context) = Intent(context, MainActivity::class.java)
+    }
+
 }

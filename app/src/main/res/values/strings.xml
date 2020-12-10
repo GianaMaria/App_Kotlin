@@ -1,10 +1,35 @@
 <resources>
-    <string name="app_name">App_Kotlin</string>
-    <string name="title_note">Geekbrains + Kotlin forever</string>
-    <string name="body_note">Я Kotlin бы выучил только за то, что на нем разрабатывал Вортон!</string>
+    <string name="app_name">Notes</string>
+
+    <!--Fragment Main-->
     <string name="title_bar">Notes</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="body_note_red">Текст заметки</string>
-    <string name="title_note_red">Заголовок</string>
+
+    <!--Fragment Note-->
+    <string name="body_note_red">Body note</string>
+    <string name="title_note_red">Title note</string>
+
+    <!--Item Note-->
+    <string name="title_note">Geekbrains + Kotlin forever</string>
+    <string name="body_note">Kotlin</string>
+
+    <!--Menu-->
+    <string name="log_out">Log out</string>
+    <string name="delete">Delete</string>
+    <string name="change_color">Change color</string>
+
+    <!--Dialog general-->
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+
+    <!--Dialog-->
+    <string name="logout_dialog_title">Sign out of account?</string>
+    <string name="logout_dialog_message">All your notes will be saved. You will be able to access them after authorization.</string>
+
+    <string name="title_color_dialog">Choose color</string>
+
+    <string name="confirmation">The confirmation</string>
+    <string name="delete_note">Delete a note?</string>
+
+    <string name="auth">Authentication</string>
+
 </resources>
