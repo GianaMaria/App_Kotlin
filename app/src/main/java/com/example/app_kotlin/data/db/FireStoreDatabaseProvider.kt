@@ -1,8 +1,6 @@
 package com.example.app_kotlin.data.db
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.app_kotlin.data.model.Note
 import com.example.app_kotlin.data.model.User
 import com.example.app_kotlin.errors.NoAuthException
@@ -11,67 +9,67 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlin.coroutines.suspendCoroutine
 
 private const val NOTES_COLLECTION = "Notes"
 private const val USERS_COLLECTION = "Users"
 private const val TAG = "FireStoreDatabase"
 
-class FireStoreDatabaseProvider : DatabaseProvider {
-    private val db = FirebaseFirestore.getInstance()
-    private val result = MutableLiveData<List<Note>>()
+class FireStoreDatabaseProvider(
+    private val db: FirebaseFirestore,
+    private val auth: FirebaseAuth
+) : DatabaseProvider {
+    private val result = MutableStateFlow<List<Note>?>(null)
     private val currentUser: FirebaseUser?
-        get() = FirebaseAuth.getInstance().currentUser
+        get() = auth.currentUser
 
     private var subscribedOnDb = false
 
-    override fun observeNotes(): LiveData<List<Note>> {
+    override fun observeNotes(): Flow<List<Note>> {
         if (!subscribedOnDb) subscribeForDbChanging()
-        return result
+        return result.filterNotNull()
     }
 
     override fun getCurrentUser() = currentUser?.run { User(displayName, email) }
 
-    override fun addOrReplaceNote(newNote: Note): LiveData<Result<Note>> {
-        val result = MutableLiveData<Result<Note>>()
-
-        handleNotesReference(
-            {
-                getUserNotesCollection()
-                    .document(newNote.id.toString())
-                    .set(newNote)
-                    .addOnSuccessListener {
-                        Log.e(TAG, "Note $newNote is saved")
-                        result.value = Result.success(newNote)
-                    }
-                    .addOnFailureListener {
-                        Log.e(TAG, "Error saving note $newNote, message: ${it.message}")
-                        result.value = Result.failure(it)
-                    }
-            }, {
-                Log.e(TAG, "Error getting reverence note $newNote, message: ${it.message}")
-                result.value = Result.failure(it)
-            })
-        return result
-    }
-
-    override fun deleteNote(noteId: String): LiveData<Result<Unit>> =
-        MutableLiveData<Result<Unit>>().apply {
+    override suspend fun addOrReplaceNote(newNote: Note) {
+        suspendCoroutine<Note> { continuation ->
             handleNotesReference(
                 {
                     getUserNotesCollection()
-                        .document(noteId)
-                        .delete()
+                        .document(newNote.id.toString())
+                        .set(newNote)
                         .addOnSuccessListener {
-                            value = Result.success(Unit)
-                        }.addOnFailureListener {
-                            value = Result.failure(it)
+                            Log.e(TAG, "Note $newNote is saved")
+                            continuation.resumeWith(Result.success(newNote))
+                        }
+                        .addOnFailureListener {
+                            Log.e(TAG, "Error saving note $newNote, message: ${it.message}")
+                            continuation.resumeWith(Result.failure(it))
                         }
                 }, {
-                    Log.e(TAG, "Error")
-                    value = Result.failure(it)
+                    Log.e(TAG, "Error getting reverence note $newNote, message: ${it.message}")
+                    continuation.resumeWith(Result.failure(it))
                 })
         }
+    }
 
+    override suspend fun deleteNote(noteId: String) {
+        suspendCoroutine<Unit> { continuation ->
+            getUserNotesCollection()
+                .document(noteId)
+                .delete()
+                .addOnSuccessListener {
+                    continuation.resumeWith(Result.success(Unit))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWith(Result.failure(it))
+                }
+        }
+    }
 
     private fun subscribeForDbChanging() {
         handleNotesReference(

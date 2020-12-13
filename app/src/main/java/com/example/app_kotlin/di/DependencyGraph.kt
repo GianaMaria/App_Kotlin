@@ -8,6 +8,8 @@ import com.example.app_kotlin.data.model.NotesRepository
 import com.example.app_kotlin.presentation.NoteViewModel
 import com.example.app_kotlin.presentation.NotesViewModel
 import com.example.app_kotlin.presentation.SplashViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.bind
@@ -18,7 +20,9 @@ object DependencyGraph {
     private val repositoryModule by lazy {
         module {
             single { Repository(get()) } bind NotesRepository::class
-            single { FireStoreDatabaseProvider() } bind DatabaseProvider::class
+            single { FirebaseAuth.getInstance() }
+            single { FirebaseFirestore.getInstance() }
+            single { FireStoreDatabaseProvider(get(), get()) } bind DatabaseProvider::class
         }
     }
 
